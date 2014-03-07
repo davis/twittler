@@ -10,18 +10,26 @@ $(document).ready(function(){
 	var lastSeenTweetIndex = 0;
 
 	// this function refreshes the tweets area with new tweets. also logs in console how many tweets have been fetched. the function is passed the 'last seen tweet index'. the function returns the last index.
-	var populateTweetsArea = function() {
-		var index = streams.home.length - 1;
-		var numberOfFetchedTweets = index - lastSeenTweetIndex;
-		lastSeenTweetIndex = index;
+	var populateTweetsArea = function(user) {
+		if (arguments.length === 0) {
+			var index = streams.home.length - 1;
+			var numberOfFetchedTweets = index - lastSeenTweetIndex;
+			lastSeenTweetIndex = index;
+			var whatToDisplay = streams.home;
+		} else {
+			var index = user.length - 1;
+			var numberOfFetchedTweets = index - lastSeenTweetIndex;
+			lastSeenTweetIndex = index;
+			var whatToDisplay = user;
+		}
 
 		$tweetsArea.html('');
 
 		while(index >= 0) {
-	      var tweet = streams.home[index];
+	      var tweet = whatToDisplay[index];
 	      var $tweet = $('<div></div>');
 
-	      $tweet.html('<strong><a class ="username" href="#">@' + tweet.user + '</strong></a> - '
+	      $tweet.html('<strong><a class="username" href="#">@' + tweet.user + '</strong></a> - '
 	      	+ moment(tweet.created_at).fromNow()+ "<br />"
 	      	+ tweet.message + "<hr />");
 
@@ -51,6 +59,11 @@ $(document).ready(function(){
 	// tying the getNewTweets button to populateTweetsArea()
 	$getNewTweetsButton.click(function() {
 		populateTweetsArea();
+	});
+
+	// tying the getNewTweets button to populateTweetsArea()
+	$('.mracusButton').click(function() {
+		populateTweetsArea(streams.users['mracus']);
 	});
 
 	// tying the userTweetButton to its function
