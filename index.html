@@ -1,27 +1,69 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
   <head>
     <script src="jquery.js"></script>
     <script src="data_generator.js"></script>
+    <script src="moment-with-langs.js"></script>
+    <script src="http://netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="http://netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">
   </head>
   <body>
     <script>
 
       $(document).ready(function(){
-        var $body = $('body');
-        $body.html('');
 
-        var index = streams.home.length - 1;
-        while(index >= 0){
-          var tweet = streams.home[index];
-          var $tweet = $('<div></div>');
-          $tweet.text('@' + tweet.user + ': ' + tweet.message);
-          $tweet.appendTo($body);
-          index -= 1;
-        }
+        // defining some jquery objects
+        var $tweetsArea = $('.tweetsArea');
+        var $getNewTweetsButton = $('.getNewTweetsButton');
+        var $userTweetButton = $('.userTweetButton');
+
+        // this function refreshes the tweets area with new tweets. also logs in console how many tweets have been fetched. the function is passed the 'last seen tweet index'. the function returns the last index.
+        var populateTweetsArea = function(lsti) {
+    		var index = streams.home.length - 1;
+    		var numberOfFetchedTweets = index - lsti;
+    		var newLastSeenTweetIndex = index;
+    		$tweetsArea.html('');
+        	while(index >= 0) {
+	          var tweet = streams.home[index];
+	          var $tweet = $('<div></div>');
+	          $tweet.text(moment(tweet.created_at).fromNow() + ' @' + tweet.user + ': ' + tweet.message);
+	          $tweet.appendTo($tweetsArea);
+	          index -= 1;
+	        }
+	        console.log("fetched " + numberOfFetchedTweets + " tweets")
+	        return newLastSeenTweetIndex;
+	    }
+
+	    // tying the get new tweets button
+	    var lastSeenTweetIndex = 0;
+	    $getNewTweetsButton.click(function() {
+	    	lastSeenTweetIndex = populateTweetsArea(lastSeenTweetIndex);
+	    });
+
+	    $userTweetButton.click(function() {
+	    	visitor = "hi"
+	    	writeTweet('#userTweet');
+	    })
 
       });
 
     </script>
+
+    <div class="container">
+    	<h1 class="title">twittler</h1>
+    	<div class="col-lg-6">
+	    	<div class="tweetsArea"></div>
+    	</div>
+    	<div class="col-lg-6">
+    	<button type="button" class="getNewTweetsButton btn btn-default">Get new tweets</button>
+    		<form role="form">
+			  <div class="form-group">
+			    <label for="userTweet">Enter a message:</label>
+			    <input type="message" class="form-control" id="userTweet" placeholder="Enter message">
+			  </div>
+			  <button type="button" class="userTweetButton btn btn-default">Submit</button>
+			</form>
+    	</div>
+	</div>
   </body>
 </html>
