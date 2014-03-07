@@ -1,6 +1,7 @@
 $(document).ready(function(){
 
 	// defining some jquery objects
+	var $subtitle = $('.subtitle');
 	var $tweetsArea = $('.tweetsArea');
 	var $newTweetsNotificationArea = $('.newTweetsNotificationArea');
 	var $getNewTweetsButton = $('.getNewTweetsButton');
@@ -12,6 +13,7 @@ $(document).ready(function(){
 	// this function refreshes the tweets area with new tweets. also logs in console how many tweets have been fetched. the function is passed the 'last seen tweet index'. the function returns the last index.
 	var populateTweetsArea = function(user) {
 		if (arguments.length === 0) {
+			$subtitle.html('feed');
 			var index = streams.home.length - 1;
 			var numberOfFetchedTweets = index - lastSeenTweetIndex;
 			lastSeenTweetIndex = index;
@@ -29,7 +31,7 @@ $(document).ready(function(){
 	      var tweet = whatToDisplay[index];
 	      var $tweet = $('<div></div>');
 
-	      $tweet.html('<strong><a class="username" href="#">@' + tweet.user + '</strong></a> - '
+	      $tweet.html('<a class="username" href="#">@' + tweet.user + '</a> - '
 	      	+ moment(tweet.created_at).fromNow()+ "<br />"
 	      	+ tweet.message + "<hr />");
 
@@ -61,9 +63,11 @@ $(document).ready(function(){
 		populateTweetsArea();
 	});
 
-	// tying the getNewTweets button to populateTweetsArea()
-	$('.mracusButton').click(function() {
-		populateTweetsArea(streams.users['mracus']);
+	// tying usernames to individual tweet feeds
+	$('body').on('click', '.username', function() {
+		var $username = $(this).html().replace("@", "");
+		$subtitle.html('@' + $username);
+		populateTweetsArea(streams.users[$username]);
 	});
 
 	// tying the userTweetButton to its function
