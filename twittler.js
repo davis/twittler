@@ -20,7 +20,11 @@ $(document).ready(function(){
 		while(index >= 0) {
 	      var tweet = streams.home[index];
 	      var $tweet = $('<div></div>');
-	      $tweet.html("<strong>@" + tweet.user + "</strong> - " + moment(tweet.created_at).fromNow() + "<br />" + tweet.message + "<hr />");
+
+	      $tweet.html('<strong><a class ="username" href="#">@' + tweet.user + '</strong></a> - '
+	      	+ moment(tweet.created_at).fromNow()+ "<br />"
+	      	+ tweet.message + "<hr />");
+
 	      $tweet.appendTo($tweetsArea);
 	      index -= 1;
 	    }
@@ -45,7 +49,6 @@ $(document).ready(function(){
 	}, 3000);
 
 	// tying the getNewTweets button to populateTweetsArea()
-	var lastSeenTweetIndex = 0;
 	$getNewTweetsButton.click(function() {
 		populateTweetsArea();
 	});
