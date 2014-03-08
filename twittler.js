@@ -6,7 +6,12 @@ $(document).ready(function(){
 	var $tweetsArea = $('.tweetsArea');
 	var $newTweetsNotificationArea = $('.newTweetsNotificationArea');
 	var $getNewTweetsButton = $('.getNewTweetsButton');
+	var $userTweetMessage = $('#userTweetMessage');
 	var $userTweetButton = $('.userTweetButton');
+
+	// other definitions
+	window.visitor = 'davis';
+	streams.users[visitor] = [];
 
 	// initializing lastSeenTweetIndex
 	var lastSeenTweetIndex = 0;
@@ -82,12 +87,9 @@ $(document).ready(function(){
 	});
 
 	// tying the userTweetButton to its function
-	window.visitor = 'davis';
-	streams.users[visitor] = [];
 	$userTweetButton.click(function() {
-		writeTweet($('#userTweet').val());
-		$('#userTweet').val('');
+		writeTweet($userTweetMessage.val());
+		$userTweetMessage.val('');
 		populateTweetsArea();
 	})
-
 });
