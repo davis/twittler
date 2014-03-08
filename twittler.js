@@ -28,10 +28,9 @@ $(document).ready(function(){
 			numberOfFetchedTweets = index - lastSeenTweetIndex;
 			lastSeenTweetIndex = index;
 			whatToDisplay = streams.home;
+			console.log("fetched " + numberOfFetchedTweets + " tweets");
 		} else {
 			index = user.length - 1;
-			numberOfFetchedTweets = index - lastSeenTweetIndex;
-			lastSeenTweetIndex = index;
 			whatToDisplay = user;
 		}
 
@@ -44,11 +43,10 @@ $(document).ready(function(){
 	      $tweet.html('<a class="username" href="#">@' + tweet.user + '</a> - '
 	      	+ moment(tweet.created_at).fromNow()+ "<br />"
 	      	+ tweet.message + "<hr />");
-
 	      $tweet.appendTo($tweetsArea);
 	      index -= 1;
 	    }
-	    console.log("fetched " + numberOfFetchedTweets + " tweets");
+	    
 	    showNumberOfUndisplayedTweets(); // manually run this function
 	}
 
