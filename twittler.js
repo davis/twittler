@@ -1,6 +1,7 @@
 $(document).ready(function(){
 
 	// defining some jquery objects
+	var $title = $('.navbar-brand');
 	var $subtitle = $('.subtitle');
 	var $tweetsArea = $('.tweetsArea');
 	var $newTweetsNotificationArea = $('.newTweetsNotificationArea');
@@ -12,17 +13,21 @@ $(document).ready(function(){
 
 	// this function refreshes the tweets area with new tweets. also logs in console how many tweets have been fetched. the function is passed the 'last seen tweet index'. the function returns the last index.
 	var populateTweetsArea = function(user) {
+		var index;
+		var numberOfFetchedTweets;
+		var whatToDisplay;
+
 		if (arguments.length === 0) {
 			$subtitle.html('feed');
-			var index = streams.home.length - 1;
-			var numberOfFetchedTweets = index - lastSeenTweetIndex;
+			index = streams.home.length - 1;
+			numberOfFetchedTweets = index - lastSeenTweetIndex;
 			lastSeenTweetIndex = index;
-			var whatToDisplay = streams.home;
+			whatToDisplay = streams.home;
 		} else {
-			var index = user.length - 1;
-			var numberOfFetchedTweets = index - lastSeenTweetIndex;
+			index = user.length - 1;
+			numberOfFetchedTweets = index - lastSeenTweetIndex;
 			lastSeenTweetIndex = index;
-			var whatToDisplay = user;
+			whatToDisplay = user;
 		}
 
 		$tweetsArea.html('');
@@ -46,11 +51,11 @@ $(document).ready(function(){
 	var showNumberOfUndisplayedTweets = function() {
 		if (streams.home.length - 1 !== lastSeenTweetIndex) {
 			$newTweetsNotificationArea.html(streams.home.length - 1 - lastSeenTweetIndex + ' new tweets');
-			$getNewTweetsButton.attr('class', 'getNewTweetsButton btn btn-primary');
+			$getNewTweetsButton.attr('class', 'getNewTweetsButton btn navbar-btn btn-primary');
 
 		} else {
 			$newTweetsNotificationArea.html('no new tweets');
-			$getNewTweetsButton.attr('class', 'getNewTweetsButton btn btn-default');
+			$getNewTweetsButton.attr('class', 'getNewTweetsButton btn navbar-btn btn-default');
 		}
 	}
 
@@ -58,8 +63,14 @@ $(document).ready(function(){
 		showNumberOfUndisplayedTweets();
 	}, 3000);
 
+	populateTweetsArea(); // initialize view
+
 	// tying the getNewTweets button to populateTweetsArea()
 	$getNewTweetsButton.click(function() {
+		populateTweetsArea();
+	});
+
+	$title.click(function() {
 		populateTweetsArea();
 	});
 
@@ -71,9 +82,12 @@ $(document).ready(function(){
 	});
 
 	// tying the userTweetButton to its function
+	window.visitor = 'davis';
+	streams.users[visitor] = [];
 	$userTweetButton.click(function() {
-		visitor = "hi"
-		writeTweet('#userTweet');
+		writeTweet($('#userTweet').val());
+		$('#userTweet').val('');
+		populateTweetsArea();
 	})
 
 });
