@@ -22,7 +22,7 @@ $(document).ready(function(){
 		var numberOfFetchedTweets;
 		var whatToDisplay;
 
-		if (arguments.length === 0) {
+		if (!user) {
 			$subtitle.html('feed');
 			index = streams.home.length - 1;
 			numberOfFetchedTweets = index - lastSeenTweetIndex;
