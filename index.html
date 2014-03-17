@@ -1,12 +1,13 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <script src="jquery.js"></script>
-    <script src="data_generator.js"></script>
-    <script src="moment-with-langs.js"></script>
-    <script src="twittler.js"></script>
+    <script src="js/jquery.js"></script>
+    <script src="js/data_generator.js"></script>
+    <script src="js/moment-with-langs.js"></script>
+    <script src="js/twittler.js"></script>
     <script src="http://netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
     <link rel="stylesheet" href="http://netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/styles.css">
   </head>
   <body>
 
@@ -33,27 +34,55 @@
 	  </div>
 	</header>
 
-    <div class="container">
+    <div class="container-fixed">
+
+	    <div class="modal fade">
+		  <div class="modal-dialog">
+		    <div class="modal-content">
+		      <div class="modal-header">
+		        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+		        <h4 class="modal-title">Oops! Looks like you need to login to do that...</h4>
+		      </div>
+		      <div class="modal-body">
+		        <form role="form">
+				    <input type="username" class="usernameEntry form-control" placeholder="Enter username">
+			  </form>
+		      </div>
+		      <div class="modal-footer">
+		        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+		        <button type="button" class="submitUsername btn btn-primary" data-dismiss="modal">That's me!</button>
+		      </div>
+		    </div><!-- /.modal-content -->
+		  </div><!-- /.modal-dialog -->
+		</div><!-- /.modal -->
 
 	    <!-- left column -->
-		<div class="col-sm-4">
-			<form class="jumbotron" role="form">
-				<div class="avatar">
-					<img class="img-rounded center-block" src="bear.jpg" height="64">
-					<h2 class="name text-center">davis</h2>
+		<div class="col-xs-4">
+			<form class="well" role="form">
+				<div class="row">
+					<img class="img-rounded center-block avatar" src="bear.jpg" height="64">
+					<h2 class="name text-center"></h2>
 				</div>
+				<div class="container">
+					<h6>Tweets: <text class="tweet-count">0</text></h6>
+				</div>
+
 				<div class="form-group">
-			    	<label for="userTweetMessage">Enter a message:</label>
-			    	<input type="message" class="form-control" id="userTweetMessage" placeholder="Enter message">
+			    	<input type="message" class="form-control" id="userTweetMessage" placeholder="Compose new Tweet...">
 				</div>
 				<button type="button" class="userTweetButton btn btn-default">Submit</button>
+
 			</form>
-			<hr />
+			
+			<div class="well">
+				<h3>Trends</h3>
+			</div>
 		</div>
 
 		<!-- right column -->
-		<div class="col-sm-8">
-			<h2 class="subtitle">feed</h2>
+		<div class="col-xs-8">
+			<h2 class="subtitle"></h2>
+			<hr />
 	    	<div class="tweetsArea"></div>
 		</div>
 
